@@ -12,7 +12,7 @@ pipeline {
         stage("deploy"){
             steps { 
                  sh """
-          kubectl -n local apply -f k8s-job.yaml
+          kubectl apply -f k8s-job.yaml
         """
             }
         }
