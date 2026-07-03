@@ -10,11 +10,13 @@ pipeline {
             }
         }
         stage("deploy"){
+                   withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
             steps { 
                  sh """
           kubectl apply -f k8s-job.yaml
         """
             }
+                   }
         }
     }
 }
