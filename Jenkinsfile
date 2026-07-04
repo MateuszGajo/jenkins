@@ -1,23 +1,21 @@
 pipeline {
-    agent any 
+    agent any
+    environment {
+        KUBECONFIG_FILE = credentials('kubeconfig-local')
+    }
     stages {
-        stage("test") {
+        stage('test') {
             steps {
-            withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
-  sh 'kubectl get nodes'
-  sh 'kubectl get ns'
-}
+                    sh 'kubectl get nodes'
+                    sh 'kubectl get ns'
             }
         }
-        stage("deploy"){
-                   
-            steps { 
-                withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
-                 sh """
-          kubectl apply -f k8s-job.yaml
-        """
+        stage('deploy') {
+            steps {
+                    sh '''
+                            kubectl apply -f k8s-job.yaml
+                    '''
             }
-                   }
         }
     }
 }
