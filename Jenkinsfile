@@ -1,23 +1,23 @@
 pipeline {
-    agent any 
+    agent any
     stages {
-        stage("test") {
+        stage('test') {
             steps {
-            withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
-  sh 'kubectl get nodes'
-  sh 'kubectl get ns'
-}
+                withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl get nodes'
+                    sh 'kubectl get ns'
+                }
             }
         }
-        stage("deploy"){
-                   
-            steps { 
+        stage('deploy') {
+            steps {
                 withCredentials([file(credentialsId: 'kubeconfig-local', variable: 'KUBECONFIG')]) {
-                 sh """
+                    sh '''
+          kubectl delete job demo-job --ignore-not-found
           kubectl apply -f k8s-job.yaml
-        """
+        '''
+                }
             }
-                   }
         }
     }
 }

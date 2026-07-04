@@ -13,7 +13,11 @@ spec:
             - sh
             - -c
             - |
-              echo "Hello from Kubernetes Job"
-              sleep 10
+              i=1
+              while [ "$i" -le 120 ]; do
+                echo "$i"
+                sleep 1
+                i=$((i + 1))
+              done
               echo "Job finished"
       restartPolicy: Never
